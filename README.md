@@ -7,13 +7,13 @@ An end-to-end unsupervised learning pipeline on a synthetic dataset: exploratory
 - `unsupervised.py` — the full pipeline (see Pipeline below)
 - `clustered_data.csv` — clustered dataset with an `id`, `cluster`, and `anomaly` column per row
 - `model.pkl` — pickled fitted models (scaler, cluster model, anomaly model)
-- Plot outputs:
-  - `eda.png` — distributions, scatter plots, correlation heatmap
-  - `model_selection.png` — bar chart of all 12 candidates ranked by silhouette score
-  - `silhouette_curve.png` — silhouette score vs k for KMeans and GMM
-  - `clusters.png` — final clusters in PCA projection
-  - `cluster_stats.png` — box plots of each feature by cluster
-  - `anomalies.png` — anomalies flagged by the Isolation Forest
+- Plot outputs (in `results-img/`):
+  - `results-img/eda.png` — distributions, scatter plots, correlation heatmap
+  - `results-img/model_selection.png` — bar chart of all 12 candidates ranked by silhouette score
+  - `results-img/silhouette_curve.png` — silhouette score vs k for KMeans and GMM
+  - `results-img/clusters.png` — final clusters in PCA projection
+  - `results-img/cluster_stats.png` — box plots of each feature by cluster
+  - `results-img/anomalies.png` — anomalies flagged by the Isolation Forest
 
 ## Requirements
 
@@ -49,15 +49,19 @@ Synthetic data generated with `sklearn.datasets.make_blobs`:
 2. **Model selection**
    - 12 candidates evaluated: KMeans and GaussianMixture for k = 2, 3, 4, 5, 6, 7
    - Each candidate scored with the silhouette coefficient
-   - Results shown in a pandas table and ranked in `model_selection.png`; score curves in `silhouette_curve.png`
+   - Results shown in a pandas table and ranked in `results-img/model_selection.png`; score curves in `results-img/silhouette_curve.png`
+   - ![Model selection](results-img/model_selection.png)
+   - ![Silhouette curve](results-img/silhouette_curve.png)
 3. **Final clustering model**
    - The winning configuration is refit on standardized features
    - Per-cluster statistics (size and feature means) shown with `pandas.groupby`
-   - PCA projects the data to 2D for visualization (`clusters.png`), with per-cluster box plots in `cluster_stats.png`
+   - PCA projects the data to 2D for visualization (`results-img/clusters.png`), with per-cluster box plots in `results-img/cluster_stats.png`
+   - ![Final clusters](results-img/clusters.png)
 4. **Anomaly detection**
    - Isolation Forest with 2% contamination
-   - Detected anomalies plotted over the PCA projection (`anomalies.png`)
+   - Detected anomalies plotted over the PCA projection (`results-img/anomalies.png`)
    - Anomaly summary shown with `pandas.groupby`
+   - ![Anomalies](results-img/anomalies.png)
 5. **Held-out evaluation**
    - 200 random rows held out from the training data
    - Cluster labels are arbitrary, so predictions are aligned to the true blobs by majority vote per blob before scoring
@@ -96,12 +100,29 @@ Note on anomaly detection: 8 of the 15 injected outliers were recovered. The inj
 
 ### Plots
 
-- `eda.png` — EDA dashboard: 3 histograms, 2 scatter plots, correlation heatmap
-- `model_selection.png` — every candidate's silhouette score, winner marked
-- `silhouette_curve.png` — silhouette vs k for KMeans and GMM
-- `clusters.png` — final 3 clusters in PCA space
-- `cluster_stats.png` — box plots of `feat_0`, `feat_1`, `feat_2` by cluster
-- `anomalies.png` — Isolation Forest anomalies in red over PCA projection
+- `results-img/eda.png` — EDA dashboard: 3 histograms, 2 scatter plots, correlation heatmap
+
+  ![EDA](results-img/eda.png)
+
+- `results-img/model_selection.png` — every candidate's silhouette score, winner marked
+
+  ![Model selection](results-img/model_selection.png)
+
+- `results-img/silhouette_curve.png` — silhouette vs k for KMeans and GMM
+
+  ![Silhouette curve](results-img/silhouette_curve.png)
+
+- `results-img/clusters.png` — final 3 clusters in PCA space
+
+  ![Final clusters](results-img/clusters.png)
+
+- `results-img/cluster_stats.png` — box plots of `feat_0`, `feat_1`, `feat_2` by cluster
+
+  ![Cluster stats](results-img/cluster_stats.png)
+
+- `results-img/anomalies.png` — Isolation Forest anomalies in red over PCA projection
+
+  ![Anomalies](results-img/anomalies.png)
 
 ## Saved Model
 
